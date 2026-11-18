@@ -32,7 +32,7 @@
       <div class="system-status"><span class="status-dot"></span> SYS.ONLINE</div>
     </header>
 
-    <main id="main-content">
+    <main id="main-content" tabindex="-1" aria-live="polite" aria-busy="false">
       {% block content %}{% endblock %}
     </main>
 
@@ -41,6 +41,7 @@
       <span>NET_LINK: <b>ESTABLE</b> · NIGHT CITY, 2077</span>
     </footer>
   </div>
+  <script src="{{ url_for('static', path='/cyber-navigation.js') }}?v=routes-1" defer></script>
   <script type="module" src="{{ url_for('static', path='/cyber-world.js') }}?v=immersive-3d"></script>
   {% block scripts %}{% endblock %}
 </body>
