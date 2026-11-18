@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block title %}Resultados{% endblock %}
+{% block content %}
+<section class="page-intro results-intro">
+  <p class="eyebrow"><span class="eyebrow-line"></span> ARCHIVO DE SORTEOS // READ_ONLY</p>
+  {% if result %}
+  <h1 data-text="EQUIPOS LISTOS.">EQUIPOS <span class="accent-cyan">LISTOS.</span></h1>
+  <p>Sorteo #{{ result.draw_id }} · {{ result.total_participants }} participantes · {{ result.teams|length }} equipos · {{ result.created_at }}</p>
+  {% else %}
+  <h1 data-text="SIN RESULTADOS.">SIN <span class="accent-yellow">RESULTADOS.</span></h1>
+  <p>El archivo está vacío. Vuelve cuando el admin haya realizado el primer sorteo.</p>
+  {% endif %}
+</section>
+
+{% if result %}
+<section class="results-section results-page-section" aria-label="Equipos del sorteo">
+  <div class="section-heading">
+    <div><p class="eyebrow"><span class="eyebrow-line"></span> DRAW_ID: {{ result.draw_id }}</p><h2>MANIFIESTO <span class="accent-yellow">DE EQUIPOS</span></h2></div>
+    <span class="live-tag"><span class="status-dot"></span> ARCHIVADO</span>
+  </div>
+  <div class="teams-grid">
+    {% for team in result.teams %}
+    <article class="team-card scan-card">
+      <span class="team-index">TEAM_{{ "%02d"|format(team.team) }}</span>
+      <span class="team-count">{{ team.size }} OPERADORES</span>
+      <ul>{% for member in team.members %}<li>{{ member }}</li>{% endfor %}</ul>
+      <span class="card-coordinates">NC-{{ "%02d"|format(loop.index) }} // GROUP</span>
+    </article>
+    {% endfor %}
+  </div>
+  <div class="api-callout">
+    <span class="api-method">GET</span>
+    <code>/api/results{% if request.url.path.startswith('/results/') %}/{{ result.draw_id }}{% endif %}</code>
+    <span>JSON ENDPOINT // PUBLIC</span>
+  </div>
+</section>
+{% endif %}
+{% endblock %}

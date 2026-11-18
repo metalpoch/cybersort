@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0a0a0f">
+  <title>{% block title %}Cyber Sort{% endblock %} // NIGHT CITY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', path='/cyber-sort.css') }}">
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <div class="scanlines" aria-hidden="true"></div>
+  <div class="site-shell">
+    <header class="topbar">
+      <a class="brand" href="/" aria-label="Cyber Sort, inicio">
+        <span class="brand-mark" aria-hidden="true">CS/</span>
+        <span>CYBER<span class="brand-accent">SORT</span></span>
+      </a>
+      <nav class="main-nav" aria-label="Navegación principal">
+        <a href="/" {% if request.url.path == '/' %}aria-current="page"{% endif %}>REGISTRO</a>
+        <a href="/results" {% if request.url.path.startswith('/results') %}aria-current="page"{% endif %}>RESULTADOS</a>
+        <a href="/admin">ADMIN <span class="nav-lock">// SECURE</span></a>
+      </nav>
+      <div class="system-status"><span class="status-dot"></span> SYS.ONLINE</div>
+    </header>
+
+    <main id="main-content">
+      {% block content %}{% endblock %}
+    </main>
+
+    <footer class="site-footer">
+      <span>CYBER SORT // TEAM ALLOCATION SYSTEM</span>
+      <span>NET_LINK: <b>ESTABLE</b> · NIGHT CITY, 2077</span>
+    </footer>
+  </div>
+</body>
+</html>

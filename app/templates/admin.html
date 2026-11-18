@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Panel admin{% endblock %}
+{% block content %}
+<section class="page-intro">
+  <p class="eyebrow"><span class="eyebrow-line"></span> PANEL DE CONTROL // SEC_LVL: ADMIN</p>
+  <h1 data-text="CONTROL DE RED.">CONTROL DE <span class="accent-yellow">RED.</span></h1>
+  <p>Revisa el roster pendiente y activa el algoritmo de asignación cuando esté todo listo.</p>
+</section>
+
+{% if message %}<p class="notice admin-notice" role="status">{{ message }}</p>{% endif %}
+
+<section class="admin-layout">
+  <div class="hud-panel roster-panel">
+    <div class="panel-corner">// ROSTER_BUFFER</div>
+    <div class="section-heading compact-heading">
+      <div><p class="panel-kicker">PARTICIPANTES EN ESPERA</p><h2>{{ participants|length }} <span class="accent-cyan">REGISTRADOS</span></h2></div>
+      <span class="live-tag"><span class="status-dot"></span> EN VIVO</span>
+    </div>
+    {% if participants %}
+    <ol class="roster-list">
+      {% for participant in participants %}
+      <li><span class="roster-number">{{ "%02d"|format(loop.index) }}</span><span>{{ participant.name }}</span><span class="roster-state">PENDING</span></li>
+      {% endfor %}
+    </ol>
+    {% else %}
+    <div class="empty-roster">// NO HAY IDENTIDADES EN EL BUFFER</div>
+    {% endif %}
+  </div>
+
+  <aside class="hud-panel draw-control">
+    <div class="panel-corner">// ACTION_GATE</div>
+    <p class="panel-kicker">ALGORITMO DE ASIGNACIÓN</p>
+    <h2>INICIAR<br><span class="accent-yellow">SORTEO</span></h2>
+    <p>Se crearán equipos de 2 o 3 personas. El resultado quedará guardado y disponible para consulta.</p>
+    <div class="draw-rules"><span>INPUT: {{ participants|length }} PERSONAS</span><span>OUTPUT: EQUIPOS × 2—3</span><span>ARCHIVE: PERMANENTE</span></div>
+    <form action="/admin/draw" method="post">
+      <button class="cp-btn cp-btn-wide" type="submit" data-text="EJECUTAR SORTEO" {% if participants|length < 2 %}disabled{% endif %}>EJECUTAR SORTEO</button>
+    </form>
+    {% if participants|length < 2 %}<p class="form-hint">Se necesitan al menos 2 participantes.</p>{% endif %}
+  </aside>
+</section>
+{% endblock %}

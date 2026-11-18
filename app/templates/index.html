@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Registro{% endblock %}
+{% block content %}
+<section class="hero-grid">
+  <div class="hero-copy">
+    <p class="eyebrow"><span class="eyebrow-line"></span> PROTOCOLO DE EQUIPOS // 01</p>
+    <h1 data-text="JUEGA EN EQUIPO.">JUEGA EN<br><span class="accent-yellow">EQUIPO.</span></h1>
+    <p class="hero-description">Registra tu nombre en la red. Cuando el admin active el sorteo, el sistema asignará equipos aleatorios de 2 o 3 integrantes.</p>
+    <div class="system-readout"><span class="status-dot"></span> REGISTROS ABIERTOS <span class="readout-divider">/</span> {{ pending_count }} EN ESPERA</div>
+  </div>
+
+  <section class="hud-panel signup-panel" aria-labelledby="signup-title">
+    <div class="panel-corner">// ID.ENTRY_01</div>
+    <p class="panel-kicker">NUEVO REGISTRO <span>AUTH: OPEN</span></p>
+    <h2 id="signup-title">ÚNETE A LA LISTA</h2>
+    {% if message %}<p class="notice" role="status">{{ message }}</p>{% endif %}
+    <form action="/register" method="post" class="signup-form">
+      <label for="participant-name">NOMBRE DE OPERADOR</label>
+      <input id="participant-name" name="name" type="text" maxlength="80" placeholder="Escribe tu nombre" autocomplete="name" required>
+      <button class="cp-btn" type="submit" data-text="REGISTRAR IDENTIDAD">REGISTRAR IDENTIDAD</button>
+    </form>
+    <p class="panel-footnote">MAX. 80 CARACTERES <span>//</span> 1 REGISTRO POR PERSONA EN ESTA RONDA</p>
+  </section>
+</section>
+
+{% if latest_result %}
+<section class="results-section" aria-labelledby="latest-title">
+  <div class="section-heading">
+    <div>
+      <p class="eyebrow"><span class="eyebrow-line"></span> ÚLTIMA ASIGNACIÓN // #{{ latest_result.draw_id }}</p>
+      <h2 id="latest-title">EQUIPOS <span class="accent-cyan">CONFIRMADOS</span></h2>
+    </div>
+    <a class="text-link" href="/results">VER RESULTADOS COMPLETOS <span aria-hidden="true">↗</span></a>
+  </div>
+  <div class="teams-grid">
+    {% for team in latest_result.teams %}
+    <article class="team-card scan-card">
+      <span class="team-index">TEAM_{{ "%02d"|format(team.team) }}</span>
+      <span class="team-count">{{ team.size }} OPERADORES</span>
+      <ul>{% for member in team.members %}<li>{{ member }}</li>{% endfor %}</ul>
+    </article>
+    {% endfor %}
+  </div>
+  <p class="snapshot-note">// SORTEO #{{ latest_result.draw_id }} GUARDADO EN ARCHIVO · LOS NUEVOS REGISTROS PARTICIPAN EN LA PRÓXIMA RONDA</p>
+</section>
+{% else %}
+<section class="empty-banner">
+  <span class="empty-icon" aria-hidden="true">◎</span>
+  <div><strong>NO HAY RESULTADOS TODAVÍA</strong><p>Los equipos aparecerán aquí en cuanto el admin ejecute el sorteo.</p></div>
+  <span class="empty-code">DRAW_STATUS: STANDBY</span>
+</section>
+{% endif %}
+{% endblock %}
