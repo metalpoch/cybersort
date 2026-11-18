@@ -34,10 +34,12 @@
   </div>
   <div class="teams-grid">
     {% for team in latest_result.teams %}
-    <article class="team-card scan-card">
-      <span class="team-index">TEAM_{{ "%02d"|format(team.team) }}</span>
-      <span class="team-count">{{ team.size }} OPERADORES</span>
-      <ul>{% for member in team.members %}<li>{{ member }}</li>{% endfor %}</ul>
+    <article class="team-card scan-card reveal">
+      <div class="team-card-heading">
+        <span class="team-index">TEAM_{{ "%02d"|format(team.team) }}</span>
+        <span class="team-count"><span class="team-count-dot"></span>{{ team.size }} OPERADORES</span>
+      </div>
+      <ul class="member-list">{% for member in team.members %}<li><span class="member-index">{{ "%02d"|format(loop.index) }}</span><span class="member-name">{{ member }}</span><span class="member-signal" aria-hidden="true">●</span></li>{% endfor %}</ul>
     </article>
     {% endfor %}
   </div>

@@ -14,17 +14,27 @@
 
 {% if result %}
 <section class="results-section results-page-section" aria-label="Equipos del sorteo">
+  <div class="results-summary" aria-label="Resumen del sorteo">
+    <div class="summary-cell"><span class="summary-value">{{ result.total_participants }}</span><span class="summary-label">JUGADORES</span></div>
+    <span class="summary-divider" aria-hidden="true"></span>
+    <div class="summary-cell"><span class="summary-value accent-cyan">{{ result.teams|length }}</span><span class="summary-label">EQUIPOS</span></div>
+    <span class="summary-divider" aria-hidden="true"></span>
+    <div class="summary-cell summary-status"><span class="status-dot"></span><span><span class="summary-value summary-live">SORTEO</span><span class="summary-label">COMPLETADO</span></span></div>
+    <span class="summary-index">RONDA // {{ "%03d"|format(result.draw_id) }}</span>
+  </div>
   <div class="section-heading">
-    <div><p class="eyebrow"><span class="eyebrow-line"></span> DRAW_ID: {{ result.draw_id }}</p><h2>MANIFIESTO <span class="accent-yellow">DE EQUIPOS</span></h2></div>
+    <div><p class="eyebrow"><span class="eyebrow-line"></span> DRAW_ID: {{ result.draw_id }} // ASIGNACIÓN FINAL</p><h2>MANIFIESTO <span class="accent-yellow">DE EQUIPOS</span></h2></div>
     <span class="live-tag"><span class="status-dot"></span> ARCHIVADO</span>
   </div>
   <div class="teams-grid">
     {% for team in result.teams %}
-    <article class="team-card scan-card">
-      <span class="team-index">TEAM_{{ "%02d"|format(team.team) }}</span>
-      <span class="team-count">{{ team.size }} OPERADORES</span>
-      <ul>{% for member in team.members %}<li>{{ member }}</li>{% endfor %}</ul>
-      <span class="card-coordinates">NC-{{ "%02d"|format(loop.index) }} // GROUP</span>
+    <article class="team-card scan-card reveal">
+      <div class="team-card-heading">
+        <span class="team-index">TEAM_{{ "%02d"|format(team.team) }}</span>
+        <span class="team-count"><span class="team-count-dot"></span>{{ team.size }} OPERADORES</span>
+      </div>
+      <ul class="member-list">{% for member in team.members %}<li><span class="member-index">{{ "%02d"|format(loop.index) }}</span><span class="member-name">{{ member }}</span><span class="member-signal" aria-hidden="true">●</span></li>{% endfor %}</ul>
+      <span class="card-coordinates">NC-{{ "%02d"|format(loop.index) }} // ESCUADRÓN</span>
     </article>
     {% endfor %}
   </div>
